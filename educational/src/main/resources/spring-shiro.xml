@@ -61,8 +61,10 @@
 
 	<!-- Enable Shiro Annotations for Spring-configured beans.  Only run after
          the lifecycleBeanProcessor has run: -->
+	<!-- 不能使用 DefaultAdvisorAutoProxyCreator 会和 metrics 和 aspectj 冲突
 	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
 		  depends-on="lifecycleBeanPostProcessor"/>
+	-->
 	<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
 		<property name="securityManager" ref="securityManager"/>
 	</bean>

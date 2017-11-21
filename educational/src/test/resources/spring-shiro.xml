@@ -62,7 +62,7 @@
 	<!-- Enable Shiro Annotations for Spring-configured beans.  Only run after
          the lifecycleBeanProcessor has run: -->
 	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
-		  depends-on="lifecycleBeanPostProcessor"/>
+		  depends-on="lifecycleBeanPostProcessor;metricRegistry"/>
 	<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
 		<property name="securityManager" ref="securityManager"/>
 	</bean>

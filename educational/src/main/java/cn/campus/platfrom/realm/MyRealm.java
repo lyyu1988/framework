@@ -23,7 +23,7 @@ public class MyRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         Collection collection = principals.fromRealm(getName());
         SimpleAuthorizationInfo simpleAuthorizationInfo=new SimpleAuthorizationInfo();
-        simpleAuthorizationInfo.addRole("admin");
+        //simpleAuthorizationInfo.addRole("admin");
         return simpleAuthorizationInfo;
     }
 

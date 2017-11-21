@@ -11,6 +11,7 @@
     <param-name>contextConfigLocation</param-name>
     <param-value>
       classpath:spring-dao.xml
+      classpath:spring-metrics.xml
       classpath:spring-shiro.xml
       classpath:spring-redis.xml
     </param-value>
