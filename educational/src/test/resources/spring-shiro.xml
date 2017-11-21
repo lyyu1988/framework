@@ -6,7 +6,7 @@
 			http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- shiro redisManager -->
-	<bean id="redisManager" class="cn.campus.platfrom.cache.RedisManager">
+	<bean id="redisManager" class="org.crazycake.shiro.RedisManager">
 		<property name="host" value="${redis.server}"/>
 		<property name="port" value="${redis.port}"/>
 		<property name="password" value="${redis.password}"/>
@@ -15,12 +15,12 @@
 	</bean>
 
 	<!-- cacheManager -->
-	<bean id="shiroCacheManager" class="cn.campus.platfrom.cache.RedisCacheManager">
+	<bean id="shiroCacheManager" class="org.crazycake.shiro.RedisCacheManager">
 		<property name="redisManager" ref="redisManager" />
 	</bean>
 
 	<!-- redisSessionDAO -->
-	<bean id="redisSessionDAO" class="cn.campus.platfrom.cache.RedisSessionDAO">
+	<bean id="redisSessionDAO" class="org.crazycake.shiro.RedisSessionDAO">
 		<property name="redisManager" ref="redisManager" />
 	</bean>
 
@@ -80,15 +80,11 @@
              defined will be automatically acquired and available via its beanName in chain
              definitions, but you can perform overrides or parent/child consolidated configuration
              here if you like: -->
-		<!--
-		<property name="filters">
-			<util:map>
-				<entry key="authc">
-					<bean class="org.apache.shiro.web.filter.authc.PassThruAuthenticationFilter" />
-				</entry>
-			</util:map>
-        </property>
-        -->
+		<!-- <property name="filters">
+            <util:map>
+                <entry key="aName" value-ref="someFilterPojo"/>
+            </util:map>
+        </property> -->
 		<property name="filterChainDefinitions">
 			<value>
 				<!--

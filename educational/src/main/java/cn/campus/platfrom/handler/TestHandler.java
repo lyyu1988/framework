@@ -1,12 +1,14 @@
 package cn.campus.platfrom.handler;
 
 import cn.campus.platfrom.entity.Test;
-import cn.campus.platfrom.entity.UserApp;
 import cn.campus.platfrom.service.TestService;
+import com.github.pagehelper.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/test")
@@ -14,12 +16,6 @@ public class TestHandler {
 
     @Autowired
     private TestService testService;
-
-    @ResponseBody
-    @RequestMapping("/test")
-    public UserApp test(){
-        return testService.getUserApp(111941l);
-    }
 
     @ResponseBody
     @RequestMapping("/insert")
@@ -52,5 +48,17 @@ public class TestHandler {
         Test test=new Test();
         test.setName("你好");
         return test;
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/list")
+    public List<Test> list(){
+        return testService.getTestList();
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/page")
+    public Page<Test> page(){
+        return testService.getTestPage();
     }
 }

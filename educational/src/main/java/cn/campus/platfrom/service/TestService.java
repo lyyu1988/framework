@@ -1,14 +1,19 @@
 package cn.campus.platfrom.service;
 
 import cn.campus.platfrom.entity.Test;
-import cn.campus.platfrom.entity.UserApp;
+import com.github.pagehelper.Page;
+
+import java.util.List;
 
 public interface TestService {
-    UserApp getUserApp(Long id);
 
     Test insertTest(Test test);
 
     Test getTest(Long id);
 
     Test updateTest(Test test);
+
+    List<Test> getTestList();
+
+    Page<Test> getTestPage();
 }
