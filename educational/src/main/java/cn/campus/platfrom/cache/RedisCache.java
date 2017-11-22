@@ -1,11 +1,11 @@
 package cn.campus.platfrom.cache;
 
-import cn.campus.platfrom.util.SerializeUtils;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
 import org.apache.shiro.util.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.SerializationUtils;
 
 import java.util.*;
 
@@ -76,7 +76,7 @@ public class RedisCache<K, V> implements Cache<K, V> {
 			String preKey = this.keyPrefix + key;
     		return preKey.getBytes();
     	}else{
-    		return SerializeUtils.serialize(key);
+    		return SerializationUtils.serialize(key);
     	}
 	}
  	
@@ -88,8 +88,7 @@ public class RedisCache<K, V> implements Cache<K, V> {
 	            return null;
 	        }else{
 	        	byte[] rawValue = cache.get(getByteKey(key));
-	        	@SuppressWarnings("unchecked")
-				V value = (V)SerializeUtils.deserialize(rawValue);
+				V value = (V)SerializationUtils.deserialize(rawValue);
 	        	return value;
 	        }
 		} catch (Throwable t) {
@@ -102,7 +101,7 @@ public class RedisCache<K, V> implements Cache<K, V> {
 	public V put(K key, V value) throws CacheException {
 		logger.debug("根据key从存储 key [" + key + "]");
 		 try {
-			 	cache.set(getByteKey(key), SerializeUtils.serialize(value));
+			 	cache.set(getByteKey(key), SerializationUtils.serialize(value));
 	            return value;
 	        } catch (Throwable t) {
 	            throw new CacheException(t);

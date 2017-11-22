@@ -1,11 +1,11 @@
 package cn.campus.platfrom.cache;
 
-import cn.campus.platfrom.util.SerializeUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.session.mgt.eis.AbstractSessionDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.SerializationUtils;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -42,7 +42,7 @@ public class RedisSessionDAO extends AbstractSessionDAO {
 		}
 		
 		byte[] key = getByteKey(session.getId());
-		byte[] value = SerializeUtils.serialize(session);
+		byte[] value = SerializationUtils.serialize(session);
 		session.setTimeout(redisManager.getExpire()*1000);		
 		this.redisManager.set(key, value, redisManager.getExpire());
 	}
@@ -64,7 +64,7 @@ public class RedisSessionDAO extends AbstractSessionDAO {
 		Set<byte[]> keys = redisManager.keys(this.keyPrefix + "*");
 		if(keys != null && keys.size()>0){
 			for(byte[] key:keys){
-				Session s = (Session)SerializeUtils.deserialize(redisManager.get(key));
+				Session s = (Session)SerializationUtils.deserialize(redisManager.get(key));
 				sessions.add(s);
 			}
 		}
@@ -87,13 +87,13 @@ public class RedisSessionDAO extends AbstractSessionDAO {
 			return null;
 		}
 		
-		Session s = (Session)SerializeUtils.deserialize(redisManager.get(this.getByteKey(sessionId)));
+		Session s = (Session)SerializationUtils.deserialize(redisManager.get(this.getByteKey(sessionId)));
 		return s;
 	}
 	
 	/**
 	 * 获得byte[]型的key
-	 * @param key
+	 * @param sessionId
 	 * @return
 	 */
 	private byte[] getByteKey(Serializable sessionId){
