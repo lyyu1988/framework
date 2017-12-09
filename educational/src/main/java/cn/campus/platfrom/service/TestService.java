@@ -1,7 +1,7 @@
 package cn.campus.platfrom.service;
 
 import cn.campus.platfrom.entity.Test;
-import com.github.pagehelper.Page;
+import com.baomidou.mybatisplus.plugins.Page;
 
 import java.util.List;
 
@@ -15,5 +15,5 @@ public interface TestService {
 
     List<Test> getTestList();
 
-    Page<Test> getTestPage();
+    Page<Test> getTestPage(Page<Test> page);
 }

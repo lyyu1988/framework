@@ -63,23 +63,14 @@
 	</bean>
 
 	<!-- mybatis配置 -->
-	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	<!--<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">-->
+	<bean id="sqlSessionFactory" class="com.baomidou.mybatisplus.spring.MybatisSqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="typeAliasesPackage" value="cn.campus.platfrom.entity"/>
 		<property name="configLocation" value="classpath:conf/mybatis-config.xml"/>
 		<property name="plugins">
 			<array>
-				<bean class="com.github.pagehelper.PageInterceptor">
-					<property name="properties">
-						<value>
-							helperDialect=mysql
-							reasonable=true
-							supportMethodsArguments=true
-							params=count=countSql
-							autoRuntimeDialect=true
-						</value>
-					</property>
-				</bean>
+				<bean class="com.baomidou.mybatisplus.plugins.PaginationInterceptor"/>
 			</array>
 		</property>
 	</bean>

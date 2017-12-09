@@ -64,7 +64,7 @@
 
         function sendName() {
             //stompClient.send("/app/topic", {}, $("#name").val());
-            stompClient.send("/user/test/app/trade", {}, $("#name").val());
+            stompClient.send("/app/trade", {}, $("#name").val());
         }
 
         function showGreeting(message) {

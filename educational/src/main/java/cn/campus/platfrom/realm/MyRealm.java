@@ -28,7 +28,7 @@ public class MyRealm extends AuthorizingRealm {
         PrincipalCollection previousPrincipals = SecurityUtils.getSubject().getPreviousPrincipals();
 
         SimpleAuthorizationInfo simpleAuthorizationInfo=new SimpleAuthorizationInfo();
-        //simpleAuthorizationInfo.addRole("admin");
+        simpleAuthorizationInfo.addRole("admin");
         return simpleAuthorizationInfo;
     }
 

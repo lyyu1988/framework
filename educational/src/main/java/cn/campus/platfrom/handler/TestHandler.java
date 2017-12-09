@@ -2,11 +2,12 @@ package cn.campus.platfrom.handler;
 
 import cn.campus.platfrom.entity.Test;
 import cn.campus.platfrom.service.TestService;
-import com.github.pagehelper.Page;
+import com.baomidou.mybatisplus.plugins.Page;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -64,7 +65,10 @@ public class TestHandler {
 
     @ResponseBody
     @RequestMapping(value="/page")
-    public Page<Test> page(){
-        return testService.getTestPage();
+    public Page<Test> page(
+        @RequestParam(value = "current",defaultValue = "1") Integer current,
+        @RequestParam(value="size",defaultValue = "10") Integer size
+    ){
+        return testService.getTestPage(new Page<>(current,size));
     }
 }

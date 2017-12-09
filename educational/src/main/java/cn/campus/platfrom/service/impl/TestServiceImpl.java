@@ -3,17 +3,14 @@ package cn.campus.platfrom.service.impl;
 import cn.campus.platfrom.entity.Test;
 import cn.campus.platfrom.mapper.TestMapper;
 import cn.campus.platfrom.service.TestService;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.codahale.metrics.annotation.Counted;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
-import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -26,24 +23,24 @@ public class TestServiceImpl implements TestService {
 
     @Override
     @CachePut(key = "#test.id")
-    @Counted(monotonic = true)
+    //@Counted(monotonic = true)
     public Test insertTest(Test test) {
-        testMapper.insertTest(test);
+        testMapper.insert(test);
         return test;
     }
 
     @Override
     @Cacheable(key = "#id")
-    @Counted(monotonic = true)
+    //@Counted(monotonic = true)
     public Test getTest(Long id) {
-        return testMapper.getTest(id);
+        return testMapper.selectById(id);
     }
 
     @Override
     @CachePut(key = "#test.id")
     @Counted(monotonic = true)
     public Test updateTest(Test test) {
-        Long count = testMapper.updateTest(test);
+        Integer count = testMapper.updateById(test);
         System.out.println(count);
         return test;
     }
@@ -52,14 +49,15 @@ public class TestServiceImpl implements TestService {
     //@RequiresRoles("admin")
     //@Counted(monotonic = true)
     public List<Test> getTestList() {
-        return testMapper.getTestList();
+        return testMapper.selectList(null);
     }
 
     @Override
     //@Counted(monotonic = true)
     //@Scheduled(cron = "0/5 * * * * ?")
-    public Page<Test> getTestPage() {
-        Page<Test> testPage=PageHelper.startPage(1, 1).count(true).doSelectPage(()-> testMapper.getTestList());
-        return testPage;
+    public Page<Test> getTestPage(Page<Test> page) {
+        List<Test> list = testMapper.selectPage(page, null);
+        page.setRecords(list);
+        return page;
     }
 }
