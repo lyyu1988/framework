@@ -3,11 +3,14 @@ package cn.campus.platfrom.handler;
 import cn.campus.platfrom.entity.Test;
 import cn.campus.platfrom.service.TestService;
 import com.github.pagehelper.Page;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -29,7 +32,9 @@ public class TestHandler {
 
     @ResponseBody
     @RequestMapping("/getTest")
-    public Test getTest(Long id){
+    public Test getTest(Long id, HttpServletRequest request){
+        Principal userPrincipal = request.getUserPrincipal();
+        System.out.println(userPrincipal);
         return testService.getTest(id);
     }
 
@@ -52,6 +57,7 @@ public class TestHandler {
 
     @ResponseBody
     @RequestMapping(value="/list")
+    @RequiresRoles("admin")
     public List<Test> list(){
         return testService.getTestList();
     }

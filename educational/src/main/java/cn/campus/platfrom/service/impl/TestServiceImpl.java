@@ -25,7 +25,6 @@ public class TestServiceImpl implements TestService {
     private TestMapper testMapper;
 
     @Override
-    @Transactional
     @CachePut(key = "#test.id")
     @Counted(monotonic = true)
     public Test insertTest(Test test) {
@@ -50,15 +49,15 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
-    @RequiresRoles("admin")
-    @Counted(monotonic = true)
+    //@RequiresRoles("admin")
+    //@Counted(monotonic = true)
     public List<Test> getTestList() {
         return testMapper.getTestList();
     }
 
     @Override
-    @Counted(monotonic = true)
-    @Scheduled(cron = "0/5 * * * * ?")
+    //@Counted(monotonic = true)
+    //@Scheduled(cron = "0/5 * * * * ?")
     public Page<Test> getTestPage() {
         Page<Test> testPage=PageHelper.startPage(1, 1).count(true).doSelectPage(()-> testMapper.getTestList());
         return testPage;

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/login")
@@ -30,6 +31,8 @@ public class LoginHandler {
     @RequestMapping("/login")
     public String login(String username, String password, HttpServletRequest request){
         Subject subject = SecurityUtils.getSubject();
+        Principal userPrincipal = request.getUserPrincipal();
+        System.out.println(userPrincipal);
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         boolean flag=true;
         try {

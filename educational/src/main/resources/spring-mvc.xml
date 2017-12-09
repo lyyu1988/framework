@@ -43,5 +43,7 @@
 		</mvc:message-converters>
 	</mvc:annotation-driven>
 
-
+	<!-- 添加 shiro 注解在 controller 层也起作用（如果将 springmvc 和 spring 分成两个容器需要添加）-->
+	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+		  depends-on="lifecycleBeanPostProcessor"/>
 </beans>

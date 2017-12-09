@@ -100,15 +100,30 @@
 			</list>
 		</property>
 	</bean>
-	<aop:config>
-		<aop:advisor advice-ref="druid-stat-interceptor"
-					 pointcut-ref="druid-stat-pointcut" />
-	</aop:config>
 
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 	<tx:annotation-driven/>
 
-	<task:annotation-driven />
+	<tx:advice id="txAdvice">
+		<tx:attributes>
+			<tx:method name="get*" read-only="true"/>
+			<tx:method name="find*" read-only="true"/>
+			<tx:method name="count*" read-only="true"/>
+			<tx:method name="*" />
+		</tx:attributes>
+	</tx:advice>
+	<aop:config>
+		<aop:pointcut expression="execution(* cn.campus.platfrom.service.*.*(..))" id="txPointCut"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointCut"/>
+		<aop:advisor advice-ref="druid-stat-interceptor"
+					 pointcut-ref="druid-stat-pointcut" />
+	</aop:config>
+
+	<!-- executor线程池，含义和java.util.concurrent.Executor是一样的,pool-size的大小官方推荐为5~10 -->
+	<task:executor id="executor" pool-size="5" />
+	<!-- scheduler的pool-size是ScheduledExecutorService线程池，默认为1 -->
+	<task:scheduler id="scheduler" pool-size="5" />
+	<task:annotation-driven executor="executor" scheduler="scheduler" />
 </beans>
