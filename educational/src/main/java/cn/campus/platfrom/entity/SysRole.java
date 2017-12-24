@@ -8,9 +8,7 @@ public class SysRole implements java.io.Serializable {
     private static final long serialVersionUID = 5959095697808434693L;
 
     private Long id;
-    private Long parentId;
-    private String roleName;
-    private String roleCode;
+    private String name;
     private Date createTime;
     private Long creater;
     private Date updateTime;
@@ -27,30 +25,13 @@ public class SysRole implements java.io.Serializable {
         this.id = id;
     }
 
-    public Long getParentId() {
-        return parentId;
+    public String getName() {
+        return name;
     }
 
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
+    public void setName(String name) {
+        this.name = name;
     }
-
-    public String getRoleName() {
-        return roleName;
-    }
-
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
-    }
-
-    public String getRoleCode() {
-        return roleCode;
-    }
-
-    public void setRoleCode(String roleCode) {
-        this.roleCode = roleCode;
-    }
-
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     public Date getCreateTime() {
         return createTime;
@@ -67,7 +48,6 @@ public class SysRole implements java.io.Serializable {
     public void setCreater(Long creater) {
         this.creater = creater;
     }
-
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     public Date getUpdateTime() {
         return updateTime;
@@ -84,7 +64,6 @@ public class SysRole implements java.io.Serializable {
     public void setUpdater(Long updater) {
         this.updater = updater;
     }
-
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     public Date getDeleteTime() {
         return deleteTime;

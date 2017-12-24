@@ -11,12 +11,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration("classpath:spring-*.xml")
 public class SpringTest {
 
-    @Autowired
-    private SysRoleMapper sysRoleMapper;
-
     @Test
     public void test(){
-        sysRoleMapper.getSysRoleByIds("1,2");
+
     }
 
 }

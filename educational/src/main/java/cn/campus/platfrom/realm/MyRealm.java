@@ -43,7 +43,7 @@ public class MyRealm extends AuthorizingRealm {
         }
 
         SysUser sysUser=list.get(0);
-        if(sysUser.getIsLock()==Constants.IS_LOCK || sysUser.getErrorCount()>=Constants.LOGIN_ERROR_COUNT){
+        if(sysUser.getIsLock()==Constants.Account.LOCKED || sysUser.getErrorCount()>=Constants.Account.ERROR_COUNT_LOCK){
             throw new AuthenticationException();
         }
 

@@ -29,20 +29,23 @@
 	</bean>
 
 	<mvc:default-servlet-handler/>
-	<mvc:annotation-driven>
-		<mvc:message-converters>
-			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
-				<constructor-arg value="UTF-8" index="0"/>
-				<property name="supportedMediaTypes">
-					<list>
-						<value>text/html;charset=UTF-8</value>
-						<value>text/plan;charset=UTF-8</value>
-					</list>
-				</property>
-			</bean>
-		</mvc:message-converters>
-	</mvc:annotation-driven>
 
+	<mvc:annotation-driven>
+        <!-- 处理中文乱码 -->
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <constructor-arg value="UTF-8" index="0"/>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<bean class="cn.campus.platfrom.interceptor.TabInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
 	<!-- 添加 shiro 注解在 controller 层也起作用（如果将 springmvc 和 spring 分成两个容器需要添加）-->
 	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
 		  depends-on="lifecycleBeanPostProcessor"/>

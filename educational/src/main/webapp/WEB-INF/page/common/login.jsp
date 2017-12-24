@@ -8,9 +8,10 @@
     <title>Title</title>
 </head>
 <body>
-    <form action="<%=path%>/login/login">
+    <form action="<%=path%>/login" method="post">
         用户名：<input type="text" name="username"/>
         密&nbsp码：<input type="password" name="password"/>
+        ${errorMsg}
         <input type="submit" value="submit"/>
     </form>
 </body>

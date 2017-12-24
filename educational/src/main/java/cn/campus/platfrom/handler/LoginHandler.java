@@ -12,51 +12,53 @@ import org.apache.shiro.web.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
-import java.security.Principal;
+import java.util.Map;
 
 @Controller
-@RequestMapping("/login")
 public class LoginHandler {
 
     @Autowired
     private SysUserService sysUserService;
 
-    @RequestMapping("/loginPage")
-    public String loginPage(){
+    @RequestMapping(value = "/login",method = RequestMethod.GET)
+    public String loginPage(Map<String,Object> model){
         return "common/login";
     }
 
-    @RequestMapping("/login")
-    public String login(String username, String password, HttpServletRequest request){
+    @RequestMapping(value="/login",method = RequestMethod.POST)
+    public String login(String username, String password, Map<String,Object> model, HttpServletRequest request){
         Subject subject = SecurityUtils.getSubject();
+        /*
         Principal userPrincipal = request.getUserPrincipal();
         System.out.println(userPrincipal);
+        */
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
-        boolean flag=true;
+        token.setRememberMe(true);
+        String errorMsg = null;
         try {
             subject.login(token);
-        } catch (UnknownAccountException e) {
-            sysUserService.addErrorCount(username);
-            flag=false;
-        } catch (IncorrectCredentialsException e) {
-            sysUserService.addErrorCount(username);
-            flag=false;
+        } catch (UnknownAccountException | IncorrectCredentialsException e) {
+            errorMsg = "用户名/密码错误";
         } catch (AuthenticationException e) {
             //其他错误，比如锁定，如果想单独处理请单独catch处理
-            sysUserService.addErrorCount(username);
-            flag=false;
+            errorMsg = "其他错误：" + e.getMessage();
         }
 
-        if(!flag){
-            return "common/login";
+        if(errorMsg != null) {//出错了，返回登录页面
+            sysUserService.addErrorCount(username);
+            model.put("errorMsg",errorMsg);
+            return loginPage(model);
         }
+
         SavedRequest savedRequest = WebUtils.getSavedRequest(request);
         // 获取保存的URL
         if (savedRequest == null || savedRequest.getRequestUrl() == null) {
             return "redirect:/common/index";
         }
+
         String url=savedRequest.getRequestUrl();
         return "redirect:"+url.substring(url.indexOf("/",1));
     }

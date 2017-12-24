@@ -38,7 +38,7 @@ public class TestServiceImpl implements TestService {
 
     @Override
     @CachePut(key = "#test.id")
-    @Counted(monotonic = true)
+    //@Counted(monotonic = true)
     public Test updateTest(Test test) {
         Integer count = testMapper.updateById(test);
         System.out.println(count);

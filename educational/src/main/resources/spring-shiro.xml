@@ -24,9 +24,22 @@
 		<property name="redisManager" ref="redisManager" />
 	</bean>
 
+	<bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+		<constructor-arg value="rememberMe"/>
+		<property name="httpOnly" value="true"/>
+		<property name="path" value="/"/>
+		<property name="maxAge" value="2592000"/><!-- 30天 -->
+	</bean>
+
+	<bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+		<property name="cipherKey" value="#{T(org.apache.shiro.codec.Base64).decode('4AvVhmFLUs0KTA3Kprsdag==')}"/>
+		<property name="cookie" ref="rememberMeCookie"/>
+	</bean>
+
 	<!-- sessionManager -->
 	<bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
 		<property name="sessionDAO" ref="redisSessionDAO" />
+		<property name="sessionIdCookie" ref="rememberMeCookie"/>
 	</bean>
 
 	<bean id="myRealm" class="cn.campus.platfrom.realm.MyRealm">
@@ -38,18 +51,6 @@
 				<property name="hashIterations" value="10"/>
 			</bean>
 		</property>
-	</bean>
-
-	<bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
-		<constructor-arg value="rememberMe"/>
-		<property name="httpOnly" value="true"/>
-		<property name="path" value="/"/>
-		<property name="maxAge" value="2592000"/><!-- 30天 -->
-	</bean>
-
-	<bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
-		<property name="cipherKey" value="#{T(org.apache.shiro.codec.Base64).decode('4AvVhmFLUs0KTA3Kprsdag==')}"/>
-		<property name="cookie" ref="rememberMeCookie"/>
 	</bean>
 
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
@@ -75,7 +76,8 @@
 
 	<!-- Enable Shiro Annotations for Spring-configured beans.  Only run after
          the lifecycleBeanProcessor has run: -->
-	<!-- 不能使用 DefaultAdvisorAutoProxyCreator 会和 metrics 和 aspectj 冲突
+	<!-- 不能使用 DefaultAdvisorAutoProxyCreator 会和 metrics 和 aspectj 冲突，
+		 dao 配置文件中的 <aop:aspectj-autoproxy/> 会代替该功能
 	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
 		  depends-on="lifecycleBeanPostProcessor"/>
 	-->
@@ -89,22 +91,27 @@
          PropertiesPlaceholderConfigurer and abstract beans or anything else we might need: -->
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager"/>
-		<property name="loginUrl" value="/login/loginPage"/>
+		<property name="loginUrl" value="/login"/>
 		<!--<property name="successUrl" value="/common/index"/>-->
 		<property name="unauthorizedUrl" value="/unauthorized"/>
 		<!-- The 'filters' property is not necessary since any declared javax.servlet.Filter bean
              defined will be automatically acquired and available via its beanName in chain
              definitions, but you can perform overrides or parent/child consolidated configuration
              here if you like: -->
-		<!--
 		<property name="filters">
+			<!--
 			<util:map>
 				<entry key="authc">
 					<bean class="org.apache.shiro.web.filter.authc.PassThruAuthenticationFilter" />
 				</entry>
 			</util:map>
+			-->
+			<map>
+				<entry key="api">
+					<bean class="cn.campus.platfrom.filter.ApiFilter"/>
+				</entry>
+			</map>
         </property>
-        -->
 		<property name="filterChainDefinitions">
 			<value>
 				<!--
@@ -120,6 +127,7 @@
 				/resource-page/**=anon
 				/druid/**=anon
 				/login/**=anon
+				/api/**=api
 				/**=authc
 			</value>
 		</property>

@@ -174,4 +174,3 @@ public class SysUser implements java.io.Serializable {
         this.isDelete = isDelete;
     }
 }
-

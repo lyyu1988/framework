@@ -62,17 +62,35 @@
 		<property name="filters" value="stat,wall" />
 	</bean>
 
+	<bean id="mybatisConfig" class="com.baomidou.mybatisplus.MybatisConfiguration">
+		<property name="mapUnderscoreToCamelCase" value="true"/>
+		<property name="logImpl" value="org.apache.ibatis.logging.log4j2.Log4j2Impl"/>
+	</bean>
+
+	<!-- 定义 MP 全局策略 -->
+	<bean id="globalConfig" class="com.baomidou.mybatisplus.entity.GlobalConfiguration">
+		<!-- 全局ID类型： 0, "数据库ID自增"， 1, "用户输入ID", 2, "全局唯一ID", 3, "全局唯一ID"-->
+		<property name="idType" value="2"/>
+	</bean>
+
 	<!-- mybatis配置 -->
 	<!--<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">-->
+	<!-- mybatis plus 配置 -->
 	<bean id="sqlSessionFactory" class="com.baomidou.mybatisplus.spring.MybatisSqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="typeAliasesPackage" value="cn.campus.platfrom.entity"/>
-		<property name="configLocation" value="classpath:conf/mybatis-config.xml"/>
+		<!--<property name="configLocation" value="classpath:conf/mybatis-config.xml"/>-->
+		<property name="configuration" ref="mybatisConfig"/>
+
+		<!-- 插件配置 -->
 		<property name="plugins">
 			<array>
-				<bean class="com.baomidou.mybatisplus.plugins.PaginationInterceptor"/>
+				<!-- 分页插件配置 -->
+				<bean id="paginationInterceptor" class="com.baomidou.mybatisplus.plugins.PaginationInterceptor"></bean>
 			</array>
 		</property>
+		<!-- mybatis plus 配置信息 -->
+		<property name="globalConfig" ref="globalConfig"/>
 	</bean>
 	<!-- 该包下的类支持注解，表示会被当作{@code mybatis mapper}处理 配置了之后表示可以自动引入mapper类-->
 	<mybatis:scan base-package="cn.campus.platfrom.mapper"/>

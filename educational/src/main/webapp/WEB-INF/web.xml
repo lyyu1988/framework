@@ -12,8 +12,9 @@
     <param-value>
       classpath:spring-dao.xml
       classpath:spring-metrics.xml
-      classpath:spring-shiro.xml
       classpath:spring-redis.xml
+      classpath:spring-rest.xml
+      classpath:spring-shiro.xml
     </param-value>
   </context-param>
 
