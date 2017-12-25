@@ -36,7 +36,7 @@
                     <a href="javascript:;">默认展开</a>
                     <dl class="layui-nav-child">
                         <dd><a href="javascript:;" id="a">选项1</a></dd>
-                        <dd><a href="javascript:;">选项2</a></dd>
+                        <dd><a href="javascript:;" id="b">选项2</a></dd>
                         <dd><a href="">跳转</a></dd>
                     </dl>
                 </li>
@@ -79,6 +79,10 @@
 
         $("#a").click(function () {
             utils.tabAdd(element,"test","/sysResource/list");
+        });
+
+        $("#b").click(function () {
+            utils.tabAdd(element,"菜单","/sysMenu/list");
         });
 
         //触发事件

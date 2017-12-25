@@ -28,6 +28,8 @@
 	     <property name="defaultEncoding" value="UTF-8"></property>
 	</bean>
 
+	<bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper"/>
+
 	<mvc:default-servlet-handler/>
 
 	<mvc:annotation-driven>

@@ -6,13 +6,13 @@
 <table class="layui-hide"></table>
 <script>
     layui.use('table', function(){
-        var $table=$("#${menuId}").find("table");
-        console.log("menuId=${menuId}");
+        var $table=$("#${tabMenuId}").find("table");
+        console.log("menuId=${tabMenuId}");
 
         var table = layui.table;
 
         table.render({
-            //elem: "#${menuId}>table",
+            //elem: "#${tabMenuId}>table",
             elem: $table[0],
             url:'<%=path%>/sysResource/data',
             cols: [[

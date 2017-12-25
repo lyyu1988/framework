@@ -14,15 +14,13 @@
 <script src="<%=path%>/resource-page/js/utils/utils.js"></script>
 
 <script type="text/javascript">
-    /*
     var constants={};
     $(function(){
         var h=document.body.clientHeight,
             w=document.body.clientWidth;
         console.log("h="+h);
-        constants.contentHeight=h-185;
+        constants.tableHeight=h-194;
     });
-    */
 </script>
 
 <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->

@@ -1,4 +1,4 @@
-package cn.campus.platfrom.cache;
+package cn.campus.platfrom.cache.shiro;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;

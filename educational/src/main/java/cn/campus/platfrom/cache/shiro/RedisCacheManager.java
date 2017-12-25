@@ -1,4 +1,4 @@
-package cn.campus.platfrom.cache;
+package cn.campus.platfrom.cache.shiro;
 
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;

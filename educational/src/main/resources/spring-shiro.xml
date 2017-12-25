@@ -6,7 +6,7 @@
 			http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- shiro redisManager -->
-	<bean id="redisManager" class="cn.campus.platfrom.cache.RedisManager">
+	<bean id="redisManager" class="cn.campus.platfrom.cache.shiro.RedisManager">
 		<property name="host" value="${redis.server}"/>
 		<property name="port" value="${redis.port}"/>
 		<property name="password" value="${redis.password}"/>
@@ -15,12 +15,12 @@
 	</bean>
 
 	<!-- cacheManager -->
-	<bean id="shiroCacheManager" class="cn.campus.platfrom.cache.RedisCacheManager">
+	<bean id="shiroCacheManager" class="cn.campus.platfrom.cache.shiro.RedisCacheManager">
 		<property name="redisManager" ref="redisManager" />
 	</bean>
 
 	<!-- redisSessionDAO -->
-	<bean id="redisSessionDAO" class="cn.campus.platfrom.cache.RedisSessionDAO">
+	<bean id="redisSessionDAO" class="cn.campus.platfrom.cache.shiro.RedisSessionDAO">
 		<property name="redisManager" ref="redisManager" />
 	</bean>
 
@@ -34,6 +34,11 @@
 	<bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
 		<property name="cipherKey" value="#{T(org.apache.shiro.codec.Base64).decode('4AvVhmFLUs0KTA3Kprsdag==')}"/>
 		<property name="cookie" ref="rememberMeCookie"/>
+	</bean>
+
+	<bean id="sessionCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+		<constructor-arg value="sessionid"/>
+		<property name="path" value="/"/>
 	</bean>
 
 	<!-- sessionManager -->

@@ -49,6 +49,6 @@ public class Constants {
 	}
 
 	public static final class TabParam{
-		public static final String MENU_ID="menuId";
+		public static final String TAB_MENU_ID="tabMenuId";
 	}
 }

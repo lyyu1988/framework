@@ -1,4 +1,4 @@
-package cn.campus.platfrom.cache;
+package cn.campus.platfrom.cache.shiro;
 
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;

@@ -17,11 +17,11 @@ public class TabInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        String menuId=request.getParameter("menuId");
+        String menuId=request.getParameter(Constants.TabParam.TAB_MENU_ID);
         if(!StringUtils.isEmpty(menuId)){
             Map<String, Object> model = modelAndView.getModel();
-            if(!model.containsKey(Constants.TabParam.MENU_ID)){
-                model.put(Constants.TabParam.MENU_ID,menuId);
+            if(!model.containsKey(Constants.TabParam.TAB_MENU_ID)){
+                model.put(Constants.TabParam.TAB_MENU_ID,menuId);
             }
         }
     }

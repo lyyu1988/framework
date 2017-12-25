@@ -1,7 +1,7 @@
 var utils=(function ($) {
     var path=window.location.pathname.split("/")[1],
         CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".split(""),
-        menuId="menuId";
+        menuId="tabMenuId";
 
     var uuid=function () {
         var chars = CHARS, uuid = new Array(36), rnd=0, r;

@@ -65,6 +65,15 @@
 	<bean id="mybatisConfig" class="com.baomidou.mybatisplus.MybatisConfiguration">
 		<property name="mapUnderscoreToCamelCase" value="true"/>
 		<property name="logImpl" value="org.apache.ibatis.logging.log4j2.Log4j2Impl"/>
+
+		<!-- 是否开启全局缓存 -->
+		<property name="cacheEnabled" value="true"/>
+		<!-- 查询时，关闭关联对象即时加载以提高性能 -->
+		<property name="lazyLoadingEnabled" value="false"/>
+		<!-- 对于未知的SQL查询，允许返回不同的结果集以达到通用的效果 -->
+		<property name="multipleResultSetsEnabled" value="true"/>
+		<!-- 设置关联对象加载的形态，此处为按需加载字段(加载字段由SQL指 定)，不会加载关联表的所有字段，以提高性能 -->
+		<property name="aggressiveLazyLoading" value="true"/>
 	</bean>
 
 	<!-- 定义 MP 全局策略 -->

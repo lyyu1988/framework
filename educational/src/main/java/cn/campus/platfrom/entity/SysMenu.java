@@ -1,17 +1,27 @@
 package cn.campus.platfrom.entity;
 
+import cn.campus.platfrom.util.json.LongJsonDeserializer;
+import cn.campus.platfrom.util.json.LongJsonSerializer;
+import com.baomidou.mybatisplus.annotations.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class SysMenu implements java.io.Serializable {
     private static final long serialVersionUID = 7364964773300120549L;
 
+    @JsonSerialize(using = LongJsonSerializer.class)
+    @JsonDeserialize(using = LongJsonDeserializer.class)
     private Long id;
     private Long parentId;
     private String name;
     private String path;
     private String code;
+    private Integer menuOrder;
     private Date createTime;
     private Long creater;
     private Date updateTime;
@@ -19,6 +29,15 @@ public class SysMenu implements java.io.Serializable {
     private Date deleteTime;
     private Long deleter;
     private Integer isDelete;
+
+    @TableField(exist = false)
+    private SysMenu parent;
+
+    @TableField(exist = false)
+    private String parentName;
+
+    @TableField(exist = false)
+    private List<SysMenu> children=new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -58,6 +77,14 @@ public class SysMenu implements java.io.Serializable {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public Integer getMenuOrder() {
+        return menuOrder;
+    }
+
+    public void setMenuOrder(Integer menuOrder) {
+        this.menuOrder = menuOrder;
     }
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
@@ -117,5 +144,28 @@ public class SysMenu implements java.io.Serializable {
 
     public void setIsDelete(Integer isDelete) {
         this.isDelete = isDelete;
+    }
+
+    public SysMenu getParent() {
+        return parent;
+    }
+
+    public void setParent(SysMenu parent) {
+        this.parent = parent;
+    }
+
+    public String getParentName() {
+        if(null!=parent){
+            return parent.getName();
+        }
+        return parentName;
+    }
+
+    public List<SysMenu> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<SysMenu> children) {
+        this.children = children;
     }
 }
