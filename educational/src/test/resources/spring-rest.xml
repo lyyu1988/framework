@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+			http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="httpClientConnectionManager" class="org.apache.http.impl.conn.PoolingHttpClientConnectionManager">
+		<property name="maxTotal" value="1000"/>
+		<property name="defaultMaxPerRoute" value="1000"/>
+    </bean>
+
+    <bean id="httpClientBuilder" class="org.apache.http.impl.client.HttpClientBuilder">
+		<property name="connectionManager" ref="httpClientConnectionManager"/>
+		<property name="retryHandler">
+			<bean class="org.apache.http.impl.client.DefaultHttpRequestRetryHandler">
+				<constructor-arg value="2"/>
+				<constructor-arg value="true"/>
+			</bean>
+		</property>
+		<property name="defaultHeaders">
+			<list>
+				<bean class="org.apache.http.message.BasicHeader">
+					<constructor-arg value="Accept"/>
+					<constructor-arg value="text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8"/>
+				</bean>
+				<bean class="org.apache.http.message.BasicHeader">
+					<constructor-arg value="User-Agent"/>
+					<constructor-arg value="Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.16 Safari/537.36"/>
+				</bean>
+				<bean class="org.apache.http.message.BasicHeader">
+					<constructor-arg value="Accept-Encoding"/>
+					<constructor-arg value="gzip,deflate"/>
+				</bean>
+				<bean class="org.apache.http.message.BasicHeader">
+					<constructor-arg value="Accept-Language"/>
+					<constructor-arg value="zh-CN,zh;q=0.8"/>
+				</bean>
+			</list>
+		</property>
+    </bean>
+
+    <bean id="httpClient" factory-bean="httpClientBuilder" factory-method="build"/>
+
+    <bean id="clientHttpRequestFactory" class="org.springframework.http.client.HttpComponentsClientHttpRequestFactory">
+		<constructor-arg ref="httpClient"/>
+    </bean>
+
+    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+		<constructor-arg ref="clientHttpRequestFactory"/>
+		<property name="errorHandler">
+			<bean class="org.springframework.web.client.DefaultResponseErrorHandler"/>
+		</property>
+    </bean>
+
+</beans>

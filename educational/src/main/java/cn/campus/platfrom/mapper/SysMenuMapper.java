@@ -8,7 +8,7 @@ import org.apache.ibatis.session.RowBounds;
 
 import java.util.List;
 
-@CacheNamespace(implementation = RedisCache.class,flushInterval = 6000l)
+@CacheNamespace(implementation = RedisCache.class,flushInterval = 6000L)
 public interface SysMenuMapper extends BaseMapper<SysMenu> {
 
     @Select(value={"select * from sys_menu where parent_id=#{parentId} and is_delete=0"})
@@ -22,7 +22,7 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
     @Select(value={"select * from sys_menu where is_delete=0 order by parent_id asc,menu_order asc"})
     @Results(value = {
         @Result(property = "parent",column = "parent_id",
-            many = @Many(select = "cn.campus.platfrom.mapper.SysMenuMapper.selectById")
+            one = @One(select = "cn.campus.platfrom.mapper.SysMenuMapper.selectById")
         )
     })
     List<SysMenu> selectWithParent(RowBounds page);

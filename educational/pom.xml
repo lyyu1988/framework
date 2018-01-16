@@ -190,6 +190,19 @@
             <artifactId>commons-codec</artifactId>
             <version>1.11</version>
         </dependency>
+        <dependency>
+            <groupId>commons-net</groupId>
+            <artifactId>commons-net</artifactId>
+            <version>3.3</version>
+        </dependency>
+        <!-- 文件上传 -->
+        <dependency>
+            <groupId>org.csource</groupId>
+            <artifactId>fastdfs-client-java</artifactId>
+            <scope>system</scope>
+            <version>1.27-SNAPSHOT</version>
+            <systemPath>${basedir}/lib/fastdfs-client-java-1.27-SNAPSHOT.jar</systemPath>
+        </dependency>
 
         <!-- 数据库配置 -->
         <dependency>
